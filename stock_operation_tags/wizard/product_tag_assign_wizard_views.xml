@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_tag_assign_wizard_form" model="ir.ui.view">
+        <field name="name">product.tag.assign.wizard.form</field>
+        <field name="model">product.tag.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Asignación Rápida de Etiquetas">
+                <group>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </group>
+                <footer>
+                    <button string="Aplicar" name="action_apply" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_tag_assign_wizard" model="ir.actions.act_window">
+        <field name="name">Asignar Etiquetas Operativas</field>
+        <field name="res_model">product.tag.assign.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+</odoo>

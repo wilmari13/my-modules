@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Formulario -->
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+                    
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="operation_tag_ids" 
+                           widget="many2many_tags" 
+                           options="{'color_field': 'color'}"/>
+            </xpath>            
+        </field>
+    </record>
+
+    <!-- Vista Tree -->
+    <record id="product_template_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='virtual_available']" position="after">
+                <field name="operation_tag_ids" 
+                      widget="many2many_tags" 
+                      options="{'color_field': 'color'}"
+                      optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    
+        <!-- Vista Kanban Definitiva para Odoo 19 -->
+    <record id="product_template_kanban_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.kanban.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agrupar por operation_tag_ids de manera predeterminada -->
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="default_group_by">operation_tag_ids</attribute>
+            </xpath>
+            <xpath expr="//kanban/progressbar" position="replace"/>
+
+            <!-- Reemplazamos la tarjeta para darle más peso visual a la imagen -->
+            <xpath expr="//t[@t-name='card']" position="replace">
+                <t t-name="card" class="flex-row align-items-stretch p-3" style="min-height: 140px;">
+                    <!-- Bloque Izquierdo: Textos del Producto (Ocupa el 70% del ancho) -->
+                    <main class="pe-3 flex-grow-1 d-flex flex-column justify-content-between" style="width: 70%;">
+                        <div class="mb-1">
+                            <div class="d-flex mb-1 h5 align-items-center">
+                                <field class="me-2" name="is_favorite" widget="boolean_favorite" nolabel="1"/>
+                                <field name="name" class="text-truncate fw-bold"/>
+                            </div>
+                            <span t-if="record.default_code.value" class="text-muted small">
+                                [<field name="default_code"/>]
+                            </span>
+                            <strong t-if="record.product_variant_count.value &gt; 1" class="d-block small text-muted">
+                                <field name="product_variant_count"/> Variants
+                            </strong>
+                        </div>
+                        
+                        <!-- Sección de Precios y Propiedades -->
+                        <div class="my-1">
+                            <span class="fw-semibold">
+                                Price: <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                            </span>
+                            <field name="product_properties" widget="properties"/>
+                        </div>
+
+                        <!-- NUEVO: Tu sección de etiquetas en la base de la columna de texto -->
+                        <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center w-100">
+                            <div class="d-flex flex-wrap gap-1">
+                                <field name="operation_tag_ids" 
+                                       widget="many2many_tags" 
+                                       options="{'color_field': 'color'}"/>
+                            </div>
+                            <div class="kanban_buttons ms-auto">
+                                <button name="%(action_product_tag_assign_wizard)d" 
+                                        type="action" 
+                                        class="btn btn-link text-muted p-0 m-0 fa fa-plus" 
+                                        style="font-size: 0.95rem; text-decoration: none;"
+                                        title="Asignar/Quitar Etiquetas"
+                                        context="{'active_id': id}"/>
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Bloque Derecho: Imagen del Producto Destacada (Ocupa el 30% del ancho fijo) -->
+                    <aside class="d-flex align-items-center justify-content-center border-start ps-3" style="width: 30%; min-width: 90px;">
+                        <field name="image_128" widget="image" alt="Product" 
+                               options="{'img_class': 'w-100 h-100 object-fit-contain d-block'}" 
+                               invisible="not image_128"/>
+                    </aside>
+                </t>
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+</odoo>
