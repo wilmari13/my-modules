@@ -47,7 +47,7 @@ class TestReplenishmentPriority(TransactionCase):
         ])
         
         self.assertEqual(len(activities), 1, "Debe crearse exactamente una actividad.")
-        self.assertEqual(activities[0].summary, 'Reabastecimiento Urgente: %s' % self.product_critical.name)
+        self.assertEqual(activities[0].summary, 'Se debe reabastecer el producto: %s' % self.product_critical.name)
 
     def test_02_prevent_duplicate_activity(self):
         """Validar que no se creen duplicados innecesarios para el mismo producto"""
