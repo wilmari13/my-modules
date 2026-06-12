@@ -14,7 +14,7 @@ class TestCollectionRisk(TransactionCase):
         # Configurar cuenta de ingresos
         cls.income_account = cls.env['account.account'].search([
             ('account_type', '=', 'income'), 
-        ])
+        ], limit=1)
 
         # Regla 1: Riesgo Alto (> 30 días, > $500)
         cls.rule_high = cls.Rule.create({
