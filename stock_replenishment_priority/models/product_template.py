@@ -13,7 +13,7 @@ class ProductTemplate(models.Model):
     target_stock = fields.Float(string='Stock Objetivo', default=0.0)
 
 
-    x_is_critical = fields.Boolean(
+    is_critical = fields.Boolean(
         string="Estado Crítico", 
         compute="_compute_is_critical", 
         store=True # Importante para poder agrupar en vistas
@@ -23,9 +23,9 @@ class ProductTemplate(models.Model):
     def _compute_is_critical(self):
         for product in self:
             if product.target_stock > 0:
-                product.x_is_critical = product.qty_available < product.target_stock
+                product.is_critical = product.qty_available < product.target_stock
             else:
-                product.x_is_critical = False
+                product.is_critical = False
 
     
     @api.model

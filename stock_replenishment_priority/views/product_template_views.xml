@@ -65,7 +65,7 @@
         <field name="name">Productos Pendientes de Reabastecimiento</field>
         <field name="res_model">product.template</field>
         <field name="view_mode">kanban,form</field>
-        <field name="domain">[('x_is_critical', '=', True)]</field>
+        <field name="domain">[('is_critical', '=', True)]</field>
         <field name="context">{'group_by': 'replenishment_priority'}</field>
         <field name="view_id" ref="view_product_template_kanban_critical"/>
     </record>
