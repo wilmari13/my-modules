@@ -59,7 +59,7 @@ class TestCollectionRisk(TransactionCase):
         # Odoo reevalúa en acción cron, forcemos el compute
         invoice._compute_collection_risk()
         
-        self.assertEqual(invoice.x_risk_level, 'high', "Debería ser Alto Riesgo (>30 días y >500).")
+        self.assertEqual(invoice.risk_level, 'high', "Debería ser Alto Riesgo (>30 días y >500).")
 
     def test_02_medium_risk_invoice(self):
         """Factura vencida hace 20 días con monto 200"""
@@ -68,7 +68,7 @@ class TestCollectionRisk(TransactionCase):
         
         invoice._compute_collection_risk()
         
-        self.assertEqual(invoice.x_risk_level, 'medium', "Debería ser Medio Riesgo (>15 días y >100).")
+        self.assertEqual(invoice.risk_level, 'medium', "Debería ser Medio Riesgo (>15 días y >100).")
 
     def test_03_no_risk_invoice(self):
         """Factura vencida hace 10 días (no cae en ninguna regla)"""
@@ -77,4 +77,4 @@ class TestCollectionRisk(TransactionCase):
         
         invoice._compute_collection_risk()
         
-        self.assertEqual(invoice.x_risk_level, 'none', "No debería tener riesgo asignado.")
+        self.assertEqual(invoice.risk_level, 'none', "No debería tener riesgo asignado.")

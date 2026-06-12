@@ -3,7 +3,7 @@ from odoo import models, fields, api
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    x_risk_level = fields.Selection([
+    risk_level = fields.Selection([
         ('none', 'Sin Riesgo'),
         ('low', 'Bajo'),
         ('medium', 'Medio'),
@@ -18,11 +18,11 @@ class AccountMove(models.Model):
 
         for move in self:
             if move.move_type not in ('out_invoice', 'out_receipt') or move.state != 'posted' or move.payment_state in ('paid', 'in_payment'):
-                move.x_risk_level = 'none'
+                move.risk_level = 'none'
                 continue
 
             if not move.invoice_date_due or move.invoice_date_due >= today:
-                move.x_risk_level = 'none'
+                move.risk_level = 'none'
                 continue
 
             # Factura vencida
@@ -36,7 +36,7 @@ class AccountMove(models.Model):
                     assigned_risk = rule.risk_level
                     break
             
-            move.x_risk_level = assigned_risk
+            move.risk_level = assigned_risk
 
     @api.model
     def cron_evaluate_collection_risk(self):
