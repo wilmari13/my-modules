@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista List (Árbol) -->
+    <record id="view_account_retention_rule_list" model="ir.ui.view">
+        <field name="name">account.retention.rule.list</field>
+        <field name="model">account.retention.rule</field>
+        <field name="arch" type="xml">
+            <list string="Reglas de Retención">
+                <field name="name"/>
+                <field name="fiscal_position_id"/>
+                <field name="min_amount"/>
+                <field name="tax_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Formulario -->
+    <record id="view_account_retention_rule_form" model="ir.ui.view">
+        <field name="name">account.retention.rule.form</field>
+        <field name="model">account.retention.rule</field>
+        <field name="arch" type="xml">
+            <form string="Regla de Retención">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Ej. Retención IVA 75%"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="fiscal_position_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="min_amount"/>
+                        </group>
+                        <group>
+                            <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción de la Ventana -->
+    <record id="action_account_retention_rule" model="ir.actions.act_window">
+        <field name="name">Reglas de Retención</field>
+        <field name="res_model">account.retention.rule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primera regla de retención fiscal
+            </p>
+            <p>
+                Vincula una posición fiscal (ej. Agente de Retención) con los impuestos de retención aplicables.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú desplegable en Configuración de Facturación/Contabilidad -->
+    <menuitem id="menu_account_retention_rule"
+              name="Reglas de Retención"
+              parent="account.menu_finance_configuration"
+              action="action_account_retention_rule"
+              sequence="100"/>
+</odoo>

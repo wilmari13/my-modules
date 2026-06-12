@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Posición Fiscal: Estándar -->
+        <record id="fiscal_position_estandar" model="account.fiscal.position">
+            <field name="name">Estándar</field>
+        </record>
+
+        <!-- Posición Fiscal: Agente de Retención -->
+        <record id="fiscal_position_agente_retencion" model="account.fiscal.position">
+            <field name="name">Agente de Retención</field>
+        </record>
+
+        <!-- Posición Fiscal: Exento -->
+        <record id="fiscal_position_exento" model="account.fiscal.position">
+            <field name="name">Exento</field>
+        </record>
+    </data>
+</odoo>
